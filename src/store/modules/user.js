@@ -43,6 +43,11 @@ const actions = {
     })
   },
 
+  logged({ commit }, token) {
+    commit('SET_TOKEN', token)
+    setToken(token)
+  },
+
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {

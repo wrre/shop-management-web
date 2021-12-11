@@ -2,7 +2,7 @@
   <div class="login-main">
     <div class="login-container">
       <div class="title-container">
-        <h3 class="title">商家管理系統</h3>
+        <h3 class="title">店家管理系統</h3>
       </div>
       <img class="main-image" src="@/assets/shop/shop.png" alt="shop">
 

@@ -58,7 +58,7 @@ export const constantRoutes = [
         path: 'shop',
         name: 'Shop',
         component: () => import('@/views/shop/index'),
-        meta: { title: '商家管理', icon: 'table' }
+        meta: { title: '店家管理', icon: 'table' }
       }
     ]
   },

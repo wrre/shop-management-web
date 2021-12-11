@@ -8,6 +8,14 @@ export function findShops(params) {
   })
 }
 
+export function createShop(data) {
+  return request({
+    url: `/shops`,
+    method: 'post',
+    data
+  })
+}
+
 export function updateShop(id, data) {
   return request({
     url: `/shops/${id}`,

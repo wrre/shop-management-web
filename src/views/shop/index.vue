@@ -1,5 +1,15 @@
 <template>
   <div class="app-container">
+    <div class="filter-container">
+      <el-button
+        type="primary"
+        size="small"
+        @click="createShopDialogFormVisible = true"
+      >
+        建立
+      </el-button>
+    </div>
+
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -80,28 +90,23 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <create-shop-dialog-form :dialog-form-visible="createShopDialogFormVisible" @create="handleCreate" @cancel="closeCreate" />
   </div>
 </template>
 
 <script>
-import { deleteShop, findShops, updateShop } from '@/api/shop'
+import { createShop, deleteShop, findShops, updateShop } from '@/api/shop'
+import CreateShopDialogForm from './components/CreateShopDialogForm'
 
 export default {
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    }
-  },
+  components: { CreateShopDialogForm },
   data() {
     return {
       list: null,
       listLoading: true,
-      editRow: { }
+      editRow: { },
+      createShopDialogFormVisible: false
     }
   },
   created() {
@@ -115,6 +120,14 @@ export default {
         this.listLoading = false
       })
     },
+    handleEdit(row) {
+      this.editRow = { ...row }
+    },
+    async confirmEdit(row) {
+      await updateShop(row.id, row)
+      this.editRow = {}
+      await this.fetchData()
+    },
     cancelEdit(row) {
       row.name = this.editRow.name
       row.address = this.editRow.address
@@ -123,18 +136,27 @@ export default {
 
       this.editRow = {}
     },
-    async confirmEdit(row) {
-      await updateShop(row.id, row)
-      this.editRow = {}
+    handleDelete(row) {
+      this.$confirm('確定刪除？', { confirmButtonText: '確定', cancelButtonText: '取消' })
+        .then(async() => {
+          await deleteShop(row.id)
+          await this.fetchData()
+        })
+    },
+    async handleCreate(data) {
+      this.closeCreate()
+      await createShop(data)
       await this.fetchData()
     },
-    handleEdit(row) {
-      this.editRow = { ...row }
-    },
-    async handleDelete(row) {
-      await deleteShop(row.id)
-      await this.fetchData()
+    closeCreate() {
+      this.createShopDialogFormVisible = false
     }
   }
 }
 </script>
+
+<style scoped>
+.filter-container {
+  padding-bottom: 10px;
+}
+</style>

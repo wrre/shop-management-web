@@ -20,7 +20,7 @@
     >
       <el-table-column align="center" label="#" width="80">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          {{ scope.$index + 1 + offset }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="名稱">
@@ -91,6 +91,14 @@
       </el-table-column>
     </el-table>
 
+    <el-pagination
+      layout="prev, pager, next, total"
+      :total="pagination.total"
+      :current-page.sync="pagination.currentPage"
+      :page-size="pagination.pageSize"
+      @current-change="handleCurrentChange"
+    />
+
     <create-shop-dialog-form :dialog-form-visible="createShopDialogFormVisible" @create="handleCreate" @cancel="closeCreate" />
   </div>
 </template>
@@ -106,7 +114,20 @@ export default {
       list: null,
       listLoading: true,
       editRow: { },
-      createShopDialogFormVisible: false
+      createShopDialogFormVisible: false,
+      pagination: {
+        currentPage: 1,
+        pageSize: 2,
+        total: 0
+      }
+    }
+  },
+  computed: {
+    limit: function() {
+      return this.pagination.pageSize
+    },
+    offset: function() {
+      return (this.pagination.currentPage - 1) * this.limit
     }
   },
   created() {
@@ -115,8 +136,9 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      findShops().then(response => {
+      findShops({ limit: this.limit, offset: this.offset }).then(response => {
         this.list = response.items
+        this.pagination.total = response.count
         this.listLoading = false
       })
     },
@@ -150,6 +172,9 @@ export default {
     },
     closeCreate() {
       this.createShopDialogFormVisible = false
+    },
+    async handleCurrentChange() {
+      await this.fetchData()
     }
   }
 }

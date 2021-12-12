@@ -23,7 +23,7 @@
           {{ scope.$index + 1 + offset }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="名稱">
+      <el-table-column align="center" label="名稱" width="150">
         <template slot-scope="{row}">
           <span v-if="editRow.id === row.id">
             <el-input v-model="row.name" class="edit-input" size="small" />
@@ -31,7 +31,7 @@
           <span v-else>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="地址">
+      <el-table-column align="center" label="地址" width="300">
         <template slot-scope="{row}">
           <span v-if="editRow.id === row.id">
             <el-input v-model="row.address" class="edit-input" size="small" />
@@ -55,7 +55,7 @@
           <span v-else>{{ row.personInCharge }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="Actions" align="center" width="200" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <span v-if="editRow.id === row.id">
             <el-button

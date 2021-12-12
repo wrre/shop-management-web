@@ -52,6 +52,7 @@ export default {
     }
   },
   mounted() {
+    this.setDialogWidth()
     window.onresize = () => {
       return (() => {
         this.setDialogWidth()

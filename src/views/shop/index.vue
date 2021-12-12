@@ -117,7 +117,7 @@ export default {
       createShopDialogFormVisible: false,
       pagination: {
         currentPage: 1,
-        pageSize: 2,
+        pageSize: 20,
         total: 0
       }
     }

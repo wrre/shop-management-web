@@ -63,7 +63,8 @@ export default {
       this.$refs['shopForm'].validate((valid) => {
         if (valid) {
           console.log('data:', this.shop)
-          this.$emit('create', this.shop)
+          this.$emit('create', {...this.shop})
+          this.$refs['shopForm'].resetFields()
         }
       })
     },

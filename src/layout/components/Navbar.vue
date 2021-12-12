@@ -17,6 +17,9 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <div class="right-menu">
+      <span>{{ name }}</span>
+    </div>
   </div>
 </template>
 
@@ -33,6 +36,7 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
+      'name',
       'avatar'
     ])
   },
@@ -77,6 +81,9 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
+    margin-left: 10px;
+    color: #5a5e66;
+    font-size: 14px;
 
     &:focus {
       outline: none;

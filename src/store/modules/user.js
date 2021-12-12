@@ -7,7 +7,9 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    role: '',
+    organizationId: null
   }
 }
 
@@ -25,6 +27,12 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar || 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+  },
+  SET_ROLE: (state, role) => {
+    state.role = role
+  },
+  SET_ORGANIZATION_ID: (state, organizationId) => {
+    state.organizationId = organizationId
   }
 }
 
@@ -57,10 +65,12 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar } = response
+        const { name, avatar, role, organizationId } = response
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_ROLE', role)
+        commit('SET_ORGANIZATION_ID', organizationId)
         resolve(response)
       }).catch(error => {
         reject(error)

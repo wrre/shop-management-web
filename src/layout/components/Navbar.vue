@@ -18,7 +18,7 @@
       </el-dropdown>
     </div>
     <div class="right-menu">
-      <span>{{ name }}</span>
+      <span>名稱: {{ name }}, 權限: {{ roleName }}, 組織: {{ organizationId || '無' }}</span>
     </div>
   </div>
 </template>
@@ -37,8 +37,20 @@ export default {
     ...mapGetters([
       'sidebar',
       'name',
-      'avatar'
-    ])
+      'avatar',
+      'role',
+      'organizationId'
+    ]),
+    roleName() {
+      switch (this.role) {
+        case 'SYSTEM':
+          return '超級管理員';
+        case 'ORGANIZATION':
+          return '組織帳號';
+        default:
+          return '分店帳號';
+      }
+    }
   },
   methods: {
     toggleSideBar() {

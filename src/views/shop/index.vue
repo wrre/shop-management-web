@@ -159,11 +159,11 @@ export default {
       this.editRow = {}
     },
     handleDelete(row) {
-      this.$confirm('確定刪除？', { confirmButtonText: '確定', cancelButtonText: '取消' })
+      this.$confirm('確定刪除？', { confirmButtonText: '確定', cancelButtonText: '取消', customClass: 'confirm-delete-message-box', showClose: false })
         .then(async() => {
           await deleteShop(row.id)
           await this.fetchData()
-        })
+        }).catch(_ => {})
     },
     async handleCreate(data) {
       this.closeCreate()
@@ -180,8 +180,14 @@ export default {
 }
 </script>
 
-<style scoped>
-.filter-container {
-  padding-bottom: 10px;
+<style>
+.confirm-delete-message-box {
+  width: 200px;
 }
+</style>
+
+<style scoped>
+  .filter-container {
+    padding-bottom: 10px;
+  }
 </style>

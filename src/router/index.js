@@ -38,6 +38,12 @@ export const constantRoutes = [
     }
   },
   {
+    path: '/login-callback-facebook',
+    redirect: to => {
+      return { path: '/login', query: { ...to.query, from: 'login-callback-facebook' }}
+    }
+  },
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true

@@ -15,3 +15,19 @@ export function loginByLine(data) {
     data
   })
 }
+
+export function getLoginByFacebookUrl(params) {
+  return request({
+    url: '/auth/logins/facebook/url',
+    method: 'get',
+    params
+  })
+}
+
+export function loginByFacebook(data) {
+  return request({
+    url: '/auth/logins/facebook',
+    method: 'post',
+    data
+  })
+}

@@ -10,6 +10,7 @@
         <h5 class="content">登入</h5>
         <div class="third-party">
           <svg-icon icon-class="line" @click="handleLoginByLine" />
+          <svg-icon icon-class="facebook" @click="handleLoginByFacebook" />
         </div>
       </div>
     </div>
@@ -19,7 +20,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { getLoginByLineUrl, loginByLine } from '@/api/auth'
+import { getLoginByFacebookUrl, getLoginByLineUrl, loginByFacebook, loginByLine } from '@/api/auth'
 
 export default {
   name: 'Login',
@@ -72,6 +73,16 @@ export default {
       } catch (e) {
         this.$router.replace({ path: '/' })
       }
+    } else if (from === 'login-callback-facebook') {
+      try {
+        const { token } = await loginByFacebook({ code, state, redirectUri: process.env.VUE_APP_FACEBOOK_LOGIN_REDIRECT_URI })
+
+        await this.$store.dispatch('user/logged', token)
+
+        this.$router.replace({ path: this.redirect || '/' })
+      } catch (e) {
+        this.$router.replace({ path: '/' })
+      }
     }
   },
   methods: {
@@ -103,6 +114,10 @@ export default {
     },
     async handleLoginByLine() {
       const { url } = await getLoginByLineUrl({ redirectUri: process.env.VUE_APP_LINE_LOGIN_REDIRECT_URI })
+      window.location.href = url
+    },
+    async handleLoginByFacebook() {
+      const { url } = await getLoginByFacebookUrl({ redirectUri: process.env.VUE_APP_FACEBOOK_LOGIN_REDIRECT_URI })
       window.location.href = url
     }
   }
